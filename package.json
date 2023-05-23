@@ -1,6 +1,7 @@
 {
   "name": "express-training-api",
   "author": "Nerdbord",
+  "type": "module",
   "scripts": {
     "dev": "nodemon index.js"
   },

@@ -1,29 +1,26 @@
-const express = require('express')
-const fs = require('fs')
+import express from 'express'
+
 const app = express()
+
+import { getTrainData, checkTrain, addTrain }  from './utils.js'
 
 app.use(express.json())
 
 const PORT = process.env.PORT || 4000
 
 app.get('/', (req, res) => {
-    const data = require('./data/trains.json')
+    const data = getTrainData()
     res.send(data)
 })
 
 app.post('/', async (req, res) => {
-    const data = require('./data/trains.json')
-    data.push({
-        id: `${data.length + 1}`,
-        ...req.body
-    })
-    fs.writeFile('./data/trains.json', JSON.stringify(data), (err) => {
-        if (err) {
-            res.send(err)
-            return
-        }
-    })
-    res.send(req.body)
+    try {
+        checkTrain(req.body)
+        const train = addTrain(req.body)
+        res.send(train)
+    } catch (err) {
+        res.status(400).send({ error: err.message })
+    }
 })
 
 app.listen(PORT, () => {
