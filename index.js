@@ -4,9 +4,10 @@ const app = express()
 const PORT = process.env.PORT || 4000
 
 app.get('/', (req, res) => {
-    res.send('Hello from Nerdbord!')
+    const data = require('./data/trains.json')
+    res.send(data)
 })
 
 app.listen(PORT, () => {
-    console.log('Server listening on port 3000')
+    console.log(`Server listening on port ${PORT}`)
 })
